@@ -12,8 +12,8 @@ const UserList = () => {
                 const response = await axios.get('http://localhost:8080');
                 setUsers(response.data.data);
             } catch (error) {
-                console.error("There was an error fetching the users!", error);
-            }
+
+                setUsers(response.data.data || []);            }
         };
         fetchUsers();
     }, []);
