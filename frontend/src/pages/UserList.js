@@ -9,7 +9,7 @@ const UserList = () => {
     useEffect(() => {
         const fetchUsers = async () => {
             try {
-                const response = await axios.get('http://localhost:8080/api/users');
+                const response = await axios.get('http://localhost:8080');
                 setUsers(response.data.data);
             } catch (error) {
                 console.error("There was an error fetching the users!", error);
@@ -24,7 +24,7 @@ const UserList = () => {
         const confirmDelete = window.confirm("Are you sure you want to delete this user?");
         if (confirmDelete) {
             try {
-                await axios.delete(`http://localhost:8080/api/users/${userId}`);
+                await axios.delete(`http://localhost:8080/${userId}`);
                 // After successful deletion, update the UI by removing the user from the state
                 setUsers(users.filter(user => user.id !== userId));
             } catch (error) {

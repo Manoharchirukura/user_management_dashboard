@@ -12,7 +12,7 @@ const UserDetails = () => {
         // Fetch the specific user's data when the component mounts
         const fetchUserDetails = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/api/users/${id}`);
+                const response = await axios.get(`http://localhost:8080/${id}`);
                 setUser(response.data.data);
             } catch (error) {
                 console.error("Failed to fetch user details:", error);

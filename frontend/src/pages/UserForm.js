@@ -27,7 +27,7 @@ const UserForm = () => {
         if (isEditing) {
             const fetchUser = async () => {
                 try {
-                    const response = await axios.get(`http://localhost:8080/api/users/${id}`);
+                    const response = await axios.get(`http://localhost:8080/${id}`);
                     setFormData(response.data.data); // Populate form with existing user data
                 } catch (error) {
                     console.error("Failed to fetch user:", error);
@@ -59,10 +59,10 @@ const UserForm = () => {
         try {
             if (isEditing) {
                 // If editing, send a PUT request
-                await axios.put(`http://localhost:8080/api/users/${id}`, formData);
+                await axios.put(`http://localhost:8080/${id}`, formData);
             } else {
                 // If adding, send a POST request
-                await axios.post('http://localhost:8080/api/users', formData);
+                await axios.post('http://localhost:8080', formData);
             }
             navigate('/'); // Redirect to the user list on success
         } catch (error) {
