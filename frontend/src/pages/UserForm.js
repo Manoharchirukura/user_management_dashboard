@@ -1,10 +1,8 @@
-// frontend/src/pages/UserForm.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 
 const UserForm = () => {
-    // State to hold all form data, flattened for simplicity
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -18,26 +16,25 @@ const UserForm = () => {
     });
 
     const navigate = useNavigate();
-    const { id } = useParams(); // Get the user ID from the URL if it exists
+    const { id } = useParams();
 
-    const isEditing = Boolean(id); // Check if we are in "edit" mode
+    const isEditing = Boolean(id);
+    const API_BASE_URL = 'https://user-management-dashboard-87fp.onrender.com';
 
     useEffect(() => {
-        // If we are in edit mode, fetch the user's data
         if (isEditing) {
             const fetchUser = async () => {
                 try {
-                    const response = await axios.get(`http://localhost:8080/${id}`);
-                    setFormData(response.data.data); // Populate form with existing user data
+                    const response = await axios.get(`${API_BASE_URL}/api/users/${id}`);
+                    setFormData(response.data.data);
                 } catch (error) {
                     console.error("Failed to fetch user:", error);
                 }
             };
             fetchUser();
         }
-    }, [id, isEditing]); // Effect runs when `id` or `isEditing` changes
+    }, [id, isEditing]);
 
-    // A single handler for all input changes
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData(prevState => ({
@@ -46,11 +43,9 @@ const UserForm = () => {
         }));
     };
 
-    // Handler for form submission
     const handleSubmit = async (e) => {
-        e.preventDefault(); // Prevent default browser submission
+        e.preventDefault();
 
-        // Basic validation
         if (!formData.name || !formData.email) {
             alert('Name and Email are required fields.');
             return;
@@ -58,13 +53,11 @@ const UserForm = () => {
 
         try {
             if (isEditing) {
-                // If editing, send a PUT request
-                await axios.put(`http://localhost:8080/${id}`, formData);
+                await axios.put(`${API_BASE_URL}/api/users/${id}`, formData);
             } else {
-                // If adding, send a POST request
-                await axios.post('http://localhost:8080', formData);
+                await axios.post(`${API_BASE_URL}/api/users`, formData);
             }
-            navigate('/'); // Redirect to the user list on success
+            navigate('/');
         } catch (error) {
             console.error("There was an error submitting the form!", error);
             alert('Failed to save user. Please check the console for details.');

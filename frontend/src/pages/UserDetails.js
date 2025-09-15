@@ -1,18 +1,16 @@
-// frontend/src/pages/UserDetails.js
-// frontend/src/pages/UserDetails.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams, Link } from 'react-router-dom';
 
 const UserDetails = () => {
-    const [user, setUser] = useState(null); // Start with null to handle loading state
-    const { id } = useParams(); // Get the user ID from the URL
+    const [user, setUser] = useState(null);
+    const { id } = useParams();
+    const API_BASE_URL = 'https://user-management-dashboard-87fp.onrender.com';
 
     useEffect(() => {
-        // Fetch the specific user's data when the component mounts
         const fetchUserDetails = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/${id}`);
+                const response = await axios.get(`${API_BASE_URL}/api/users/${id}`);
                 setUser(response.data.data);
             } catch (error) {
                 console.error("Failed to fetch user details:", error);
@@ -20,9 +18,8 @@ const UserDetails = () => {
         };
 
         fetchUserDetails();
-    }, [id]); // The effect depends on the `id` from the URL
+    }, [id]);
 
-    // Show a loading message while the data is being fetched
     if (!user) {
         return <div>Loading user details...</div>;
     }
